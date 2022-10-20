@@ -39,8 +39,133 @@ var menuLinks = [
 ];
 
 for (let i = 0; i < menuLinks.length; i++) {
-  let aEl = document.createElement("a");
-  aEl.setAttribute("href", "menulinks[i].href");
+  const aEl = document.createElement("a");
+  aEl.setAttribute("href", menuLinks[i].href);
   aEl.textContent = menuLinks[i].text;
   topMenuEl.append(aEl);
 }
+
+// * D. Lab Part 2 ~ Events
+// *    1. Select and cache the ~<nav id="sub-menu">~ element in a variable named subMenuEl.
+// *    2. Set the height subMenuEl element to be 100%.
+// *    3. Set the background color of subMenuEl to the value stored in the --sub-menu-bgCSS custom property.
+// *    4. Add the class of (flex-around) to the (subMenuEl) element.
+
+let subMenuEl = document.querySelector("#sub-menu");
+subMenuEl.style.height = "100%";
+subMenuEl.style.backgroundColor = "var(--sub-menu-bg)";
+subMenuEl.classList.add("flex-around");
+
+// * E.
+// *   1. Set the CSS position property of subMenuEl to the value of absolute.
+// *   2. Links to an external site.Task 4.5
+// *   3. Set the CSS top property of subMenuEl to the value of 0.
+// *   4. Update the menuLinks array in script.js
+
+subMenuEl.style.position = "absolute";
+subMenuEl.style.position = 0;
+
+var menuLinks = [
+  { text: "about", href: "/about" },
+  {
+    text: "catalog",
+    href: "#",
+    subLinks: [
+      { text: "all", href: "/catalog/all" },
+      { text: "top selling", href: "/catalog/top" },
+      { text: "search", href: "/catalog/search" },
+    ],
+  },
+  {
+    text: "orders",
+    href: "#",
+    subLinks: [
+      { text: "new", href: "/orders/new" },
+      { text: "pending", href: "/orders/pending" },
+      { text: "history", href: "/orders/history" },
+    ],
+  },
+  {
+    text: "account",
+    href: "#",
+    subLinks: [
+      { text: "profile", href: "/account/profile" },
+      { text: "sign out", href: "/account/signout" },
+    ],
+  },
+];
+
+// * F-a.
+// *  1. Select and cache the all of the <a> elements inside of (topMenuEl) in a variable named topMenuLinks. ~done
+// *  2. Declare a global (showingSubMenu) variable and initialize it to false; ~ done
+// *  3.  Attach a delegated 'click' event listener to topMenuEl.
+// *  4. The first line of code of the event listener function should call the event object's preventDefault()method.
+// *  6. The second line of code function should immediately return if the element clicked was not an <a> element.
+// ! check: Links to an external site.Task 5.2 ~done
+
+// console.log the content of the <a>to verify the handler is working
+
+let topMenuLinks = topMenuEl.querySelectorAll("a"); // <-- returns all element descendants
+let showingSubMenu = false;
+
+topMenuEl.addEventListener("click", (evt) => {
+  // < --- Element.addEventListener(string, EventListener || EventListenerObject)
+  // evt = event
+
+  evt.preventDefault();
+  let link = evt.target;
+  if (link.tagName !== "A") return;
+  console.log(evt.target.textContent);
+
+  // * F-b.
+  // *  1. Remove the active class from the clicked <a> element.
+  // *  2. Set the showingSubMenu to false.
+  // *  3. Set the CSS top property of subMenuEl to 0.
+  // *  4. return to exit the handler. <----just means 'return'
+
+  if (evt.target.classList.contains("active")) {
+    evt.target.classList.remove("active");
+    showingSubMenu = false;
+    subMenuEl.style.top = "0";
+    return;
+  }
+
+  // * F-c.
+  // * 1. Next, the event listener should remove a class name of (active)
+  // *    from each <a> element in (topMenuLinks)- whether the active class exists or not.
+  // * 2. -Set showingSubMenu to true-
+  // *    - if the clicked <a> element's "link" object within menuLinks has a subLinks property
+  // * 3.  Next, the event listener should add a class name of active to the <a> element that was clicked.
+  //      (all do, except for the "link" object for ABOUT), otherwise, set it to false.
+  // ! Hint: Saving the "link" object in a variable will come in handy for passing its subLinks array
+  // !       in Task 5.7
+
+  topMenuLinks.forEach((element) => {
+    element.classList.remove("active");
+  });
+
+  if (evt.target) {
+    evt.target.classList.add("active");
+
+    topMenuLinks.forEach((element) => {
+      if (element.subLinks) {
+        showingSubMenu = true;
+      } else {
+        showingSubMenu = false;
+      }
+    });
+
+    // * F-d.
+    // *  1. Code the buildSubMenu function so that it:
+    // *  2. Clears the contents of subMenuEl.
+    // *  Iterates over the subLinks array passed as an argument; and for each "link" object:
+
+    // * Create an <a>element.
+    // * On the new element, add an href attribute with its value set to the href property of the "link" object.
+    // *Set the new element's content to the value of the text property of the "link" object.
+    // * Append the new element to the subMenuEl element.
+  }
+});
+
+// console.log(topMenuLinks);
+// evt.target.addEventListener("click").classList.add("active");
