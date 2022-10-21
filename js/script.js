@@ -193,37 +193,39 @@ topMenuEl.addEventListener("click", (evt) => {
     mainEl.innerHTML = "<h1>about</h1>";
   }
 
-  // * G ~
+  // * G-a
   // * Attach a delegated 'click' event listener to subMenuEl.
   // * The first line of code of the event listener function should call the event object's preventDefault()method.
-  // * The second line of code function should immediately return if the element clicked was not an <a>element.
-  // *console.log the content of the <a>to verify the handler is working.
+  // * The second line of code function should immediately return if the element clicked was not an <a> element.
+  // *console.log the content of the <a> to verify the handler is working.
 
   subMenuEl.addEventListener("click", (evt) => {
     evt.preventDefault();
     if (evt.target.tagName !== "A") {
       return;
+    } else {
+      showingSubMenu = false;
     }
   });
   console.log(evt.target.textContent);
 
+  // * G-b
   // *  1. Next in the event listener...
   // *  2. If showingSubMenu is true:
   // *  3. Call a buildSubMenu function passing to it the subLinks array for the clicked <a >element.
   // *  4. Set the CSS top property of subMenuEl to 100%.
   // *  Otherwise (showingSubMenu is false):
-
-  // *Set the CSS top property of subMenuEl to 0.
-  // * Links to an external site.Task 5.8
+  // *  5. Set the CSS top property of subMenuEl to 0.
   // * Code the buildSubMenu function so that it:
 
-  // * Clears the contents of subMenuEl.
-  // * Iterates over the subLinks array passed as an argument; and for each "link" object:
+  subMenuEl.style.top = "0";
 
-  // *Create an <a> element.
-  // * On the new element, add an href attribute with its value set to the href property of the "link" object.
-  // * Set the new element's content to the value of the text property of the "link" object.
-  // * Append the new element to the subMenuEl element.
+  // *  6. Remove the class name of active from each <a> element in topMenuLinks- whether the active class exists or not.
+  // *  7. Update the contents of mainEl to the contents of the <a> element, within an <h1>, clicked within subMenuEl.
+  for (let i = 0; i < topMenuLinks.length; i++) {
+    topMenuLinks[i].classList.remove("active");
+  }
+  mainEl.innerHTML = `<h1>${evt.target.textContent}</h1>`;
 });
 
 // console.log(topMenuLinks);
